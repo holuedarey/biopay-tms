@@ -1,0 +1,119 @@
+{
+  "resources/js/app.js": {
+    "file": "assets/app.526e7136.js",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_colors.da9936a8.js",
+      "__commonjsHelpers.d2428edb.js",
+      "_tom-select.complete.db81386d.js",
+      "_tabulator.es2015.7ad63e95.js"
+    ],
+    "css": [
+      "assets/app.ed50b023.css"
+    ],
+    "assets": [
+      "assets/dropify.3e771798.eot",
+      "assets/dropify.8d7f9685.ttf",
+      "assets/dropify.4e727392.svg"
+    ]
+  },
+  "resources/js/ckeditor-classic.js": {
+    "file": "assets/ckeditor-classic.3b153213.js",
+    "src": "resources/js/ckeditor-classic.js",
+    "isEntry": true,
+    "imports": [
+      "__commonjsHelpers.d2428edb.js"
+    ]
+  },
+  "resources/js/ckeditor-inline.js": {
+    "file": "assets/ckeditor-inline.5243c169.js",
+    "src": "resources/js/ckeditor-inline.js",
+    "isEntry": true,
+    "imports": [
+      "__commonjsHelpers.d2428edb.js"
+    ]
+  },
+  "resources/js/ckeditor-balloon.js": {
+    "file": "assets/ckeditor-balloon.a1e1a342.js",
+    "src": "resources/js/ckeditor-balloon.js",
+    "isEntry": true,
+    "imports": [
+      "__commonjsHelpers.d2428edb.js"
+    ]
+  },
+  "resources/js/ckeditor-balloon-block.js": {
+    "file": "assets/ckeditor-balloon-block.2cc1eed6.js",
+    "src": "resources/js/ckeditor-balloon-block.js",
+    "isEntry": true,
+    "imports": [
+      "__commonjsHelpers.d2428edb.js"
+    ]
+  },
+  "resources/js/ckeditor-document.js": {
+    "file": "assets/ckeditor-document.4fe78ca9.js",
+    "src": "resources/js/ckeditor-document.js",
+    "isEntry": true,
+    "imports": [
+      "__commonjsHelpers.d2428edb.js"
+    ]
+  },
+  "resources/js/pages/terminal-groups.js": {
+    "file": "assets/terminal-groups.00c78e5c.js",
+    "src": "resources/js/pages/terminal-groups.js",
+    "isEntry": true,
+    "imports": [
+      "_tabulator.es2015.7ad63e95.js",
+      "__commonjsHelpers.d2428edb.js"
+    ]
+  },
+  "resources/js/pages/fees.js": {
+    "file": "assets/fees.2194d3df.js",
+    "src": "resources/js/pages/fees.js",
+    "isEntry": true,
+    "imports": [
+      "_tabulator.es2015.7ad63e95.js",
+      "__commonjsHelpers.d2428edb.js"
+    ]
+  },
+  "resources/js/pages/dashboard.js": {
+    "file": "assets/dashboard.9ee88423.js",
+    "src": "resources/js/pages/dashboard.js",
+    "isEntry": true,
+    "imports": [
+      "_colors.da9936a8.js",
+      "__commonjsHelpers.d2428edb.js"
+    ]
+  },
+  "resources/js/pages/routing-settings.js": {
+    "file": "assets/routing-settings.c4b5a822.js",
+    "src": "resources/js/pages/routing-settings.js",
+    "isEntry": true,
+    "imports": [
+      "_tom-select.complete.db81386d.js"
+    ]
+  },
+  "_colors.da9936a8.js": {
+    "file": "assets/colors.da9936a8.js",
+    "imports": [
+      "__commonjsHelpers.d2428edb.js"
+    ]
+  },
+  "_tom-select.complete.db81386d.js": {
+    "file": "assets/tom-select.complete.db81386d.js"
+  },
+  "_tabulator.es2015.7ad63e95.js": {
+    "file": "assets/tabulator.es2015.7ad63e95.js",
+    "imports": [
+      "__commonjsHelpers.d2428edb.js"
+    ]
+  },
+  "__commonjsHelpers.d2428edb.js": {
+    "file": "assets/_commonjsHelpers.d2428edb.js"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app.9ea69c14.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  }
+}

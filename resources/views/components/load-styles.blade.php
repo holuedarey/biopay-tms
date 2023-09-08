@@ -1,0 +1,1 @@
+<span class="text-green-500 text-red-500 text-yellow-500 text-blue-500 bg-green-200 bg-red-200 bg-yellow-200"></span>

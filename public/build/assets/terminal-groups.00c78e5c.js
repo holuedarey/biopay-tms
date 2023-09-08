@@ -1,0 +1,1 @@
+import"./tabulator.es2015.7ad63e95.js";import"./_commonjsHelpers.d2428edb.js";J(document).ready(function(){let e=null;Livewire.on("editGroupModal",i=>{let t=$("div#edit-group");e===null&&(e=tailwind.Modal.getOrCreateInstance(document.querySelector("#edit-group"))),i==="close"?e.hide():(t.find("h2.slide-over-title").html("Edit Group '"+i.name+"'"),e.show())})});

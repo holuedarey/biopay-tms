@@ -1,0 +1,3 @@
+.toastify-content {
+    @apply py-2 pl-2 pr-8 bg-white border border-slate-200/60 rounded-lg shadow;
+}
