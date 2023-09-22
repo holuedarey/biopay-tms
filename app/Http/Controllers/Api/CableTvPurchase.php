@@ -36,7 +36,7 @@ class CableTvPurchase extends Controller
         ]);
 
         $service = Service::whereSlug(Cabletv::NAME)->firstOrFail();
-        $terminal = Terminal::whereSerial($request->get('serial'))->firstOrFail();
+        $terminal = Terminal::forAuthDevice();
 
         $charge = $terminal->group->charge($service, $request->amount);
 
@@ -57,8 +57,10 @@ class CableTvPurchase extends Controller
         $decoder = $request->get('decoder');
         $phone = $request->get('phone');
         $planCode = $request->get('planCode');
+        $decoderId  = $request->get('account_id');
+        $recipient = $decoderId . '|' . $request->paymentData['recipient'] . "|$phone";
 
-        $narration = 'Purchase for ' . strtoupper($decoder)  .": $planCode - " . moneyFormat($amount) . " for {$request->account_id}";
+        $narration = 'Purchase for ' . strtoupper($decoder)  .": $planCode - " . moneyFormat($amount) . " for $decoderId";
 
         $charge = $request->terminal->group->charge($service, $amount);
         $totalAmount = $amount + $charge;
@@ -71,12 +73,13 @@ class CableTvPurchase extends Controller
             $totalAmount,
             $reference,
             $narration,
-            $provider::name()
+            $provider::name(),
+            $recipient
         );
 
         return Purchase::process($transaction, $request->wallet,
             fn () => WalletHelper::processDebit($request->wallet, $amount, $service, $reference, $narration, $charge),
-            fn() => $provider->purchaseCablePlan($decoder, $planCode, $phone, $amount, $reference, $request->months, $request->paymentData)
+            fn() => $provider->purchaseCablePlan($decoder, $planCode, $phone, $amount, $reference, $request->get('months'), $request->get('paymentData'))
         );
     }
 }

@@ -22,7 +22,7 @@ class Transfer extends Controller
     {
         $provider = TransferService::provider();
         $service = Service::whereSlug(TransferService::NAME)->firstOrFail();
-        $terminal = Terminal::whereSerial($request->get('serial'))->firstOrFail();
+        $terminal = Terminal::forAuthDevice();
 
         $request->validate([
             'account_number' => 'required|string|size:10',

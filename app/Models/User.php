@@ -189,17 +189,26 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return ! $this->isAgentGroup();
+        // Cache to avoid fetching model multiple times in a day.
+        return Cache::remember("{$this->id}_is_admin", now()->addDay(),
+            fn() => $this->roles()->where('type', User::GROUPS[0])->exists()
+        );
     }
 
     public function isSuperAgent(): bool
     {
-        return $this->getRoleNames()->contains(Role::SUPERAGENT);
+        // Cache to avoid fetching model multiple times in a day.
+        return Cache::remember("{$this->id}_id_superagent", now()->addDay(),
+            fn() => $this->getRoleNames()->contains(Role::SUPERAGENT)
+        );
     }
 
     public function isAgent(): bool
     {
-        return $this->getRoleNames()->contains(Role::AGENT);
+        // Cache to avoid fetching model multiple times in a day.
+        return Cache::remember("{$this->id}_id_agent", now()->addDay(),
+            fn() => $this->getRoleNames()->contains(Role::AGENT)
+        );
     }
 
     /**
@@ -267,7 +276,7 @@ class User extends Authenticatable
 
     public function scopeStaff(Builder $builder): void
     {
-        $builder->whereRelation('roles', 'type', User::GROUPS[1]);
+        $builder->whereRelation('roles', 'type', User::GROUPS[0]);
     }
 
     public function createDummyTerminal(string $serial, string $device, string $phone): void

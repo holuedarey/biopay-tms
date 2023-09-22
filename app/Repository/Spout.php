@@ -146,14 +146,17 @@ class Spout implements
         if ($res->isSpoutSuccess()) {
             return collect([
                 'name' => $res['response']['name'],
-                'paymentData' => $res->collect()->only('transactionId'),
+                'paymentData' => [
+                    'transactionId' => $res['transactionId'],
+                    'recipient' => $res['response']['name']
+                ],
             ]);
         }
 
         throw new FailedApiResponse($res->error('Validation failed!'), 404);
     }
 
-    public function purchaseCablePlan(string $decoder, string $planCode, string $phone, float $amount, string $ref, int $months = 1, array $paymentData = []): Result
+    public function purchaseCablePlan(string $decoder, string $planCode, string $phone, float $amount, string $ref, ?int $months = 1, array $paymentData = []): Result
     {
         $service = $this->decoderService($decoder);
         $code = $decoder == 'startimes' ? 'bouquet' : 'bouquetCode';
@@ -199,9 +202,14 @@ class Spout implements
         ]);
 
         if ($res->isSpoutSuccess()) {
-            return $res->collect('response')
-                ->merge(['paymentData' => $res->collect()->only('transactionId')])
-                ->only(['name', 'address', 'paymentData']);
+            return  collect([
+                'name' => $name = $res['response']['name'],
+                'address' => $address = $res['response']['address'],
+                'paymentData' => [
+                    'transactionId' => $res['transactionId'],
+                    'recipient' => "$name | $address"
+                ]
+            ]);
         }
 
         throw new FailedApiResponse($res->error('Meter validation failed!'));

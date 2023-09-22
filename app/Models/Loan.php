@@ -22,6 +22,12 @@ class Loan extends Model
         'items' => 'array'
     ];
 
+    protected function items(): Attribute
+    {
+        return Attribute::get(
+            fn($value) => \Arr::map(json_decode($value), fn($item) => ucfirst($item)),
+        );
+    }
     public function transaction(): BelongsTo
     {
         return $this->belongsTo(Transaction::class);
@@ -100,5 +106,17 @@ class Loan extends Model
         }
 
         $transaction->save();
+    }
+
+    public function scopeViewable(Builder $builder): void
+    {
+        $user = auth()->user();
+
+        $builder->with('transaction')->when($user->isSuperAgent(),
+            fn($query) => $query->where('user_id', $user->id)
+                ->orWhereRelation('agent', 'super_agent_id', $user->id)
+                ->with('agent', fn($query) => $query->select(['id', 'first_name', 'other_names'])),
+            fn($query) => $query->forAgent($user)
+        );
     }
 }

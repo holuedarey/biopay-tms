@@ -5,11 +5,13 @@ namespace App\Models;
 use App\Exceptions\FailedApiResponse;
 use App\Traits\BelongsToSuperAgent;
 use Cjmellor\Approval\Concerns\MustBeApproved;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -58,6 +60,11 @@ class Terminal extends Model
     {
         return $this->belongsToMany(Service::class, 'service_terminal')
             ->withTimestamps();
+    }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
     }
 
 //    Attributes
@@ -123,5 +130,15 @@ class Terminal extends Model
         }
 
         return strtoupper($tid);
+    }
+
+    /**
+     * Get the terminal for the authenticated device through the request header.
+     *
+     * @return Terminal
+     */
+    public static function forAuthDevice(): Terminal
+    {
+        return static::whereSerial(request()->header('deviceId'))->firstOrFail();
     }
 }

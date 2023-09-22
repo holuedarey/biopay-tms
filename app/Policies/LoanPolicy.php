@@ -2,12 +2,20 @@
 
 namespace App\Policies;
 
+use App\Enums\Status;
 use App\Models\Loan;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
 class LoanPolicy
 {
+    public function before(User $user)
+    {
+        if ($user->can('approve loans')) {
+            return true;
+        }
+    }
+
     /**
      * Determine whether the user can view any models.
      */
@@ -37,7 +45,10 @@ class LoanPolicy
      */
     public function update(User $user, Loan $loan): bool
     {
-        return $user->isAdmin() ||($user->isSuperAgent() && $loan->user->super_agent_id === $user->id);
+        // Only admin that can approve loans can perform the update
+        if (request('status') == Status::CONFIRMED->value) return false;
+
+        return $user->isActive() && $user->is($loan->agent->superAgent);
     }
 
     /**

@@ -33,7 +33,7 @@ class ElectricityPurchase extends Controller
 
         $meterNo = $request->meterNo;
         $service = Service::whereSlug(Electricity::NAME)->firstOrFail();
-        $terminal = Terminal::whereSerial($request->get('serial'))->firstOrFail();
+        $terminal = Terminal::forAuthDevice();
 
         $charge = $terminal->group->charge($service, $request->amount);
 
@@ -53,6 +53,7 @@ class ElectricityPurchase extends Controller
         $amount = (double) $request->get('amount');
         $code = $request->get('code');
         $meter = $request->get('meterNo');
+        $recipient = $meter . '|' . $request->paymentData['recipient'] . "|$phone";
 
         $narration = 'Payment for ' . strtoupper($code)  ." electricity bill: $meter - " . moneyFormat($amount);
 
@@ -67,7 +68,8 @@ class ElectricityPurchase extends Controller
             $totalAmount,
             $reference,
             $narration,
-            $provider::name()
+            $provider::name(),
+            $recipient
         );
 
         return Purchase::process($transaction, $request->wallet,

@@ -28,5 +28,15 @@ interface CableTvServiceInterface extends BaseService
      */
     public function validateCablePlan(string $decoder, string $uniqueId, string $type = null): Collection;
 
-    public function purchaseCablePlan(string $decoder, string $planCode, string $phone, float $amount, string $ref, int $months = 1, array $paymentData = []): Result;
+    /**
+     * @param string $decoder The decoder type like <b>dstv</b>, <b>gotv</b>, etc...
+     * @param string $planCode The code for the bouquet plan to be purchased
+     * @param string $phone The phone number of the recipient
+     * @param float $amount The amount of the cable plan
+     * @param string $ref The reference of the transaction
+     * @param int|null $months The months of the subscription
+     * @param array $paymentData Extra payment data from previous validation that would be required for the purchase.
+     * @return Result
+     */
+    public function purchaseCablePlan(string $decoder, string $planCode, string $phone, float $amount, string $ref, ?int $months = 1, array $paymentData = []): Result;
 }

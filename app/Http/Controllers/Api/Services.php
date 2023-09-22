@@ -11,7 +11,7 @@ class Services extends Controller
 {
     public function index(Request $request)
     {
-        $services = Terminal::whereSerial($request->header('deviceId'))->firstOrFail()->menus()
+        $services = Terminal::forAuthDevice()->menus()
             ->select(['services.id', 'slug', 'name'])
             ->get()->makeHidden('pivot');
 

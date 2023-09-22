@@ -26,7 +26,7 @@ class TerminalTransactionRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->terminal = Terminal::whereSerial($this->header('deviceId'))->firstOrFail();
+        $this->terminal = Terminal::forAuthDevice();
         $this->wallet = $this->user()->wallet;
     }
 

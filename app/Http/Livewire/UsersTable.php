@@ -34,20 +34,18 @@ class UsersTable extends Component
 
     public function render()
     {
-        if (in_array($this->name, RoleHelper::getAgentRoles())) {
-            $users = User::role($this->name)
-                ->with('kycLevel')->latest()
-                ->withSearch($this->search)
-                ->paginate();
+        if (!is_null($this->role)) {
+            $users = $this->role->users()->paginate();
         }
         elseif ($this->name == 'admins') {
-            $users = User::role(RoleHelper::getAdminRoles())
-                ->with('kycLevel')->latest()
+            $users = User::staff()->with('kycLevel')
                 ->withSearch($this->search)
-                ->paginate();
+                ->latest()->paginate();
         }
         else {
-            $users = $this->role->users()->paginate();
+            $users = User::role($this->name)->with('kycLevel')
+                ->withSearch($this->search)
+                ->latest()->paginate();
         }
 
         return view('pages.manage-users.table', compact('users'));

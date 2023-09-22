@@ -24,6 +24,7 @@ return new class extends Migration
             $table->float('total_amount', 12);
             $table->string('reference');
             $table->string('response_code', 2)->nullable();
+            $table->string('recipient')->nullable();
             $table->string('stan', 6)->nullable();
             $table->string('bank_name')->nullable();
             $table->string('bank_code')->nullable();

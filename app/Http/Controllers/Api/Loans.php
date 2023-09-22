@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Helpers\General;
 use App\Helpers\MyResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoanRequest;
 use App\Http\Requests\TerminalTransactionRequest;
+use App\Http\Resources\LoanResource;
 use App\Models\Loan;
 use App\Models\Service;
 use App\Models\Transaction;
+use Illuminate\Http\Request;
 
 class Loans extends Controller
 {
@@ -20,10 +23,7 @@ class Loans extends Controller
     public function index()
     {
         return MyResponse::success('Loans fetched',
-            Loan::latest()
-                ->whereBelongsTo(auth()->user())
-                ->get()
-                ->makeHidden(['approved_by', 'confirmed_by', 'declined_by'])
+            LoanResource::collection(Loan::viewable()->latest()->get())
         );
     }
 
@@ -54,6 +54,12 @@ class Loans extends Controller
         });
 
         return MyResponse::success('Loan request created.');
+    }
+
+
+    public function update(LoanRequest $request, Loan $loan)
+    {
+        return MyResponse::success('Loan status updated', $loan->refresh());
     }
 
     public function destroy(Loan $loan)

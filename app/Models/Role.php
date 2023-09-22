@@ -8,6 +8,6 @@ class Role extends SpatieRole
 {
     const ADMIN = 'ADMIN';
     const SUPERADMIN = 'SUPER ADMIN';
-    const AGENT = 'RETAILER';
-    const SUPERAGENT = 'WHOLESALER';
+    const AGENT = 'AGENT';
+    const SUPERAGENT = 'SUPER AGENT';
 }

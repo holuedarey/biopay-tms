@@ -27,7 +27,7 @@
                     <template x-if="loanStatus === '{{ \App\Enums\Status::DECLINED->value }}'">
                         <div class="px-5 mb-3">
                             <label for="reason" class="form-label">Reason for decline</label>
-                            <textarea name="reason" id="reason" class="form-control form-textarea" rows="4"></textarea>
+                            <textarea name="decline_reason" id="reason" class="form-control form-textarea" rows="4"></textarea>
                         </div>
                     </template>
                 </div>

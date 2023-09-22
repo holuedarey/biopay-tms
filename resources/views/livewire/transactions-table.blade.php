@@ -1,6 +1,6 @@
 @php($placeholder = ($type == 'all') ? 'name, email, reference, service' : ($type == 'wallet' ? 'name, email, reference, account number' : 'reference, service' ))
 
-<div class="bg-white px-5 py-3" x-data>
+<div class="bg-white px-5 py-3" x-data="{route: null}">
     <div class="intro-y col-span-12 flex lg:flex-row flex-col flex-wrap sm:flex-nowrap gap-4 lg:items-end justify-between">
         <h4 class="font-medium lg:mr-auto">
             Showing list of all {{ $type == 'wallet' ? 'Wallet ' : '' }} transactions
@@ -99,7 +99,7 @@
                             </td>
 
                             <td class="text-yellow-500">
-                                <span class="text-{{ statusColor($transaction->status) }}-500">{{ $transaction->status }}</span>
+                                <x-transactions.status :$transaction />
                             </td>
                         @endif
 
@@ -128,4 +128,6 @@
             {{ $transactions->links() }}
         </div>
     </div>
+
+    <x-transactions.update-modal />
 </div>

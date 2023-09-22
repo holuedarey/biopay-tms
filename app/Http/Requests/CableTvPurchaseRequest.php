@@ -19,7 +19,7 @@ class CableTvPurchaseRequest extends TerminalTransactionRequest
             'phone' => 'required|digits:11',
             'planCode' => 'required',
             'amount' => 'required|numeric|min:500',
-            'months' => 'required|int|min:1',
+            'months' => 'nullable|int|min:1',
             'paymentData' => 'required|array',
         ];
     }

@@ -36,7 +36,7 @@ class Purchase
                     'meta' => $purchase->data
                 ]);
 
-                return MyResponse::success("SUCCESSFUL: $transaction->info", $purchase->data);
+                return MyResponse::success("SUCCESSFUL: $transaction->info", $transaction);
             }
         }
 
@@ -46,10 +46,11 @@ class Purchase
         ]);
 
         // Reverse failed purchase if wallet was debited.
-        if ($debit->success) $wallet->credit($transaction->amount, $transaction->service, info: "REVERSAL:: $transaction->info");
+        if ($debit->success) $wallet->credit($transaction->total_amount, $transaction->service, info: "REVERSAL:: $transaction->info");
 
         return MyResponse::failed(
             $purchase->message ?? $debit->message,
+            $transaction,
             code: $debit->success ? 200 : 403
         );
     }

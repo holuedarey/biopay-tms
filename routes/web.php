@@ -75,7 +75,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('users.kyc-docs',               UserKycDocs::class)->shallow()->only(['index', 'store']);
     Route::resource('users.manage-level',           ManageUserLevel::class)->only(['index', 'store']);
     Route::resource('kyc-docs',                     KycDocs::class)->shallow()->except(['edit', 'show']);
-    Route::resource('transactions',                 Transactions::class)->only('index');
+    Route::resource('transactions',                 Transactions::class)->only(['index', 'update']);
     Route::resource('kyc-levels',                   KycLevels::class)->only(['index', 'store', 'update']);
     Route::resource('ledger',                       Ledger::class)->only('index');
     Route::resource('approvals',                    Approvals::class)->only(['index', 'update', 'destroy']);

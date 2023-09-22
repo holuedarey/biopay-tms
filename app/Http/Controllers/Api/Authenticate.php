@@ -62,6 +62,7 @@ class Authenticate extends Controller
             'terminal_status'   => $terminal->status,
             'admin_pin'         => $terminal->admin_pin,
             'address'           => $user->address ?? $terminal->name_location,
+            'is_super_agent'    => $user->isSuperAgent(),
             'access_token'      => $user->generateToken($terminal),
         ]);
     }

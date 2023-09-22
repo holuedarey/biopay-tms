@@ -46,7 +46,8 @@ class AirtimePurchase extends Controller
             $amount,
             $reference,
             $narration,
-            $provider::name()
+            $provider::name(),
+            $phone
         );
 
         return Purchase::process(

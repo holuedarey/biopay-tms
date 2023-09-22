@@ -16,19 +16,20 @@ class   Dashboard extends Controller
      */
     public function __invoke(Request $request)
     {
+        $terminal = Terminal::forAuthDevice();
+
         return MyResponse::success('Dashboard Loaded', [
             'wallet' => auth()->user()->wallet->only(['account_number', 'balance', 'status', 'updated_at']),
             'summary' => [
-                'cashout_count' => Transaction::successful()->cashout()->count(),
-                'transfer_count' => Transaction::successful()->transfer()->count(),
-                'bill_payments_count' => Transaction::successful()->billPayment()->count(),
-                'airtime_count' => Transaction::successful()->airtime()->count(),
+                'cashout_count' => Transaction::whereBelongsTo($terminal)->successful()->cashout()->count(),
+                'transfer_count' => Transaction::whereBelongsTo($terminal)->successful()->transfer()->count(),
+                'bill_payments_count' => Transaction::whereBelongsTo($terminal)->successful()->billPayment()->count(),
+                'airtime_count' => Transaction::whereBelongsTo($terminal)->successful()->airtime()->count(),
             ],
-            'menus' => Terminal::whereSerial($request->header('deviceId'))->firstOrFail()->menus()
-                ->select(['services.id', 'slug', 'menu_name', 'description'])
+            'menus' => $terminal->menus()->select(['services.id', 'slug', 'menu_name', 'description'])
                 ->get()->makeHidden('pivot'),
             'transactions' => TransactionResource::collection(
-                auth()->user()->transactions()->latest()->limit(5)->get()
+                $terminal->transactions()->latest()->limit(5)->get()
             )
         ]);
     }

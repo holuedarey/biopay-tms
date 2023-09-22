@@ -27,6 +27,11 @@ class Transaction extends Model
         'status' => Status::class
     ];
 
+    public function isPending(): bool
+    {
+        return $this->status == Status::PENDING;
+    }
+
 // Relationships
     public function service(): BelongsTo
     {
@@ -107,7 +112,8 @@ class Transaction extends Model
         float $totalAmount,
         string $reference,
         string $narration,
-        string $provider): static
+        string $provider,
+        ?string $recipient = null): static
     {
         return $terminal->agent->transactions()->create([
             'terminal_id'   => $terminal->id,
@@ -115,6 +121,7 @@ class Transaction extends Model
             'total_amount'  => $totalAmount,
             'charge'        => $totalAmount - $amount,
             'reference'     => $reference,
+            'recipient'     => $recipient,
             'info'          => $narration,
             'type_id'       => $service->id,
             'status'        => Status::PENDING,

@@ -41,7 +41,7 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('transactions',              Transactions::class)->only(['index', 'show']);
         Route::apiResource('wallet-transactions',       WalletTransactions::class)->only('index');
         Route::apiResource('banks',                     Banks::class)->only(['index']);
-        Route::apiResource('loans',                     Loans::class)->only(['index', 'store', 'destroy']);
+        Route::apiResource('loans',                     Loans::class)->only(['index', 'store', 'update', 'destroy']);
         Route::apiResource('levels',                    Levels::class)->only('index');
 
         Route::apiResource('validate-transfer',         Transfer::class)->only('index');

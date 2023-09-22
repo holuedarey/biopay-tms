@@ -32,6 +32,10 @@ class LoanObserver
             if ($loan->status == Status::CONFIRMED) {
                 $loan->confirmed_by = auth()->id();
             }
+
+            if ($loan->status == Status::APPROVED) {
+                $loan->approved_by = auth()->id();
+            }
         }
     }
 
@@ -40,7 +44,7 @@ class LoanObserver
      */
     public function updated(Loan $loan): void
     {
-
+        $loan->processTransaction();
     }
 
     /**

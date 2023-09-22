@@ -88,13 +88,6 @@ class SideMenu
                 'permission' => 'read transactions'
             ],
 
-            'dispute' => [
-                'icon' => 'book',
-                'route_name' => 'dispute',
-                'title' => 'Dispute',
-            ],
-
-
             'loans' => [
                 'icon' => 'share-2',
                 'route_name' => 'loans.index',
@@ -208,6 +201,13 @@ class SideMenu
                 'route_name' => 'approvals.index',
                 'title' => 'Approvals',
                 'permission' => 'approve actions'
+            ],
+
+
+            'dispute' => [
+                'icon' => 'book',
+                'route_name' => 'dispute',
+                'title' => 'Dispute',
             ],
 
             'app-management' => [
