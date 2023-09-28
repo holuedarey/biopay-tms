@@ -10,4 +10,5 @@ class Role extends SpatieRole
     const SUPERADMIN = 'SUPER ADMIN';
     const AGENT = 'AGENT';
     const SUPERAGENT = 'SUPER AGENT';
+    const APPROVER = 'APPROVER';
 }

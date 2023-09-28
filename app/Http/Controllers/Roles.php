@@ -9,10 +9,13 @@ use App\Models\Role;
 
 class Roles extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Role::class);
+    }
+
     public function index()
     {
-        \Auth::user()->can('read admin');
-
         $roles = Role::orderBy('name')
             ->withCount(['users', 'permissions'])
             ->with(['users' => fn($query) => $query->inRandomOrder()->limit(6)])
@@ -23,8 +26,6 @@ class Roles extends Controller
 
     public function show(Role $role)
     {
-        \Auth::user()->can('read admin');
-
         $permissions = Permission::all()->sortBy('name')->pluck('name')->toArray();
 
         return view('pages.access-control.roles.show', compact('role', 'permissions'));
@@ -32,9 +33,8 @@ class Roles extends Controller
 
     public function create()
     {
-        \Auth::user()->can('read admin');
-
         $permissions = Permission::all();
+
         $types = User::GROUPS;
 
         return view('pages.access-control.roles.create', compact('permissions', 'types'));
@@ -42,10 +42,7 @@ class Roles extends Controller
 
     public function store(RoleRequest $request)
     {
-        \Auth::user()->can('read admin');
-
-        $data = $request->only('name', 'type');
-        $role = Role::create($data);
+        $role = Role::create($request->only('name', 'type'));
 
         $role->givePermissionTo($request->permissions);
 
@@ -54,8 +51,6 @@ class Roles extends Controller
 
     public function update(RoleRequest $request, Role $role)
     {
-        \Auth::user()->can('read admin');
-
         if (!in_array($role->type, [Role::SUPERAGENT, Role::AGENT]))
             $role->update(['name' => $request->name]);
 

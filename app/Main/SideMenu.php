@@ -196,14 +196,6 @@ class SideMenu
                 'permission' => 'read settings'
             ],
 
-            'approvals' => [
-                'icon' => 'user-check',
-                'route_name' => 'approvals.index',
-                'title' => 'Approvals',
-                'permission' => 'approve actions'
-            ],
-
-
             'dispute' => [
                 'icon' => 'book',
                 'route_name' => 'dispute',

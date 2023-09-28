@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Approval;
+use App\Models\Role;
 use App\Models\User;
 use Cjmellor\Approval\Enums\ApprovalStatus;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -19,7 +20,7 @@ class ApprovalPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->can('approve actions');
+        return $user->hasRole(Role::APPROVER);
     }
 
     /**

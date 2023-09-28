@@ -72,6 +72,17 @@
                         @endif
                     @endif
                 @endforeach
+
+                @if(Auth::user()->hasRole(\App\Models\Role::APPROVER))
+                    <li>
+                        <a href="{{ route('approvals.index') }}" @class(['side-menu', 'side-menu--active' => request()->routeIs('approvals.index')])>
+                            <div class="side-menu__icon">
+                                <i data-lucide="user-check"></i>
+                            </div>
+                            <div class="side-menu__title">Approvals</div>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </nav>
         <!-- END: Side Menu -->

@@ -32,12 +32,10 @@ class RoleSeeder extends Seeder
             $role->givePermissionTo(Permission::pluck('name')->toArray());
         });
 
-        $role = Role::create([
+        Role::create([
             'name' => 'APPROVER',
             'type' => User::GROUPS[0]
         ]);
-
-        $role->givePermissionTo('approve actions');
 
         collect($agent_roles)->each(function ($value) {
             $role = Role::create([
@@ -99,7 +97,6 @@ class RoleSeeder extends Seeder
             'create settings',
             'edit settings',
             'read transactions',
-            'approve actions',
             'read menus',
             'edit menus',
             'create terminal-processors',
