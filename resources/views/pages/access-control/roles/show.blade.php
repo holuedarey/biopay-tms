@@ -13,7 +13,6 @@
         <div class="intro-y flex items-center gap-2 mt-6 mb-2">
             <h2 class="text-lg font-medium">
                 {{ $role->name }} Role
-                <!-- BEGIN: Modal toggle -->
             </h2>
             @can('update', $role)
                 <div class="text-xs sm:px-2 flex items-center text-info hover:underline cursor-pointer"
