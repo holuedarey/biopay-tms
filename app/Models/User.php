@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -73,17 +74,6 @@ class User extends Authenticatable
     ];
 
     protected $appends = ['name'];
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope('superAgentUsers', function (Builder $builder) {
-            $builder->when(\Auth::hasUser() && session('super_agent'),
-                fn(Builder $builder) => $builder->where('super_agent_id', session('super_agent'))
-            );
-        });
-    }
 
 //    Relationships
 
@@ -266,7 +256,8 @@ class User extends Authenticatable
     {
         return $query->where('first_name', 'like', '%' . $search . '%')
             ->orWhere('other_names', 'like', '%' . $search . '%')
-            ->orWhere('email', 'like', '%' . $search . '%');
+            ->orWhere('email', 'like', '%' . $search . '%')
+            ->orWhere('phone', 'like', '%' . $search . '%');
     }
 
     public function scopeAgent(Builder $builder): void
@@ -277,6 +268,15 @@ class User extends Authenticatable
     public function scopeStaff(Builder $builder): void
     {
         $builder->whereRelation('roles', 'type', User::GROUPS[0]);
+    }
+
+    public function scopeViewable(Builder $builder): void
+    {
+        $user = Auth::user();
+
+        $builder->when($user->isSuperAgent(),
+            fn(Builder $query) => $query->where('super_agent_id', $user->id)
+        );
     }
 
     public function createDummyTerminal(string $serial, string $device, string $phone): void

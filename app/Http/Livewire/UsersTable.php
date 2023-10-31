@@ -43,9 +43,11 @@ class UsersTable extends Component
                 ->latest()->paginate();
         }
         else {
-            $users = User::role($this->name)->with('kycLevel')
+            $users = User::role($this->name)
+                ->latest()->viewable()
+                ->with('kycLevel')
                 ->withSearch($this->search)
-                ->latest()->paginate();
+                ->paginate();
         }
 
         return view('pages.manage-users.table', compact('users'));

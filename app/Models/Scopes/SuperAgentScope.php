@@ -14,9 +14,12 @@ class SuperAgentScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        $builder->when(Auth::hasUser() && session('super_agent'),
+        $user = Auth::user();
+
+        $builder->when($user?->isSuperAgent() ?? false,
             fn(Builder $builder) => $builder->whereRelation('agent',
-                fn($builder) => $builder->where('super_agent_id', session('super_agent'))
+                fn($builder) => $builder->where('super_agent_id', $user->id)
+                    ->orWhere('users.id', $user->id)
             )
         );
     }

@@ -25,10 +25,12 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        if ($user->isSuperAgent())
-            return $user->is($model) || ($user->is($model->superAgent) && $user->can('read customers'));
+        if ($user->is($model)) return true;
 
-        return $user->is($model) || $user->can('read admin');
+        if ($user->isSuperAgent())
+            return ($user->id == $model->super_agent_id && $user->can('read customers'));
+
+        return $user->can('read admin');
     }
 
     /**

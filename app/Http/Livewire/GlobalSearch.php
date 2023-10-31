@@ -12,7 +12,7 @@ class GlobalSearch extends Component
 
     public function render()
     {
-        $users  = empty($this->search) ? new Collection() : User::withSearch($this->search)->limit(5)->get();
+        $users  = empty($this->search) ? new Collection() : User::withSearch($this->search)->viewable()->limit(5)->get();
 
         return view('livewire.global-search', compact('users'));
     }
