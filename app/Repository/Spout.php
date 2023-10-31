@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @author Lyte Onyema
+ * @link https://github.com/teqbylyte
+ */
+
 namespace App\Repository;
 
 use App\Contracts\AirtimeServiceInterface;
@@ -11,7 +16,6 @@ use App\Enums\Network;
 use App\Exceptions\FailedApiResponse;
 use App\Helpers\Result;
 use App\Models\Bank;
-use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
@@ -24,21 +28,6 @@ class Spout implements
     ElectricityServiceInterface,
     TransferServiceInterface
 {
-    public function __construct()
-    {
-        Http::macro('spout', fn() => Http::withHeaders(Spout::headers())->baseUrl(Spout::url()));
-
-        Response::macro('isSpoutSuccess', fn() => $this['responseCode'] === '00');
-
-        Response::macro('error', function($msg) {
-            Log::error("SPOUT {$this['responseCode']}: {$this['message']} \n", $this->json());
-
-            $errorMsg = $this['responseCode'] === '05' ? $this['message'] : $msg;
-
-            return "$errorMsg... Contact support.";
-        });
-    }
-
     public static function name(): string
     {
         return 'SPOUT';

@@ -15,9 +15,13 @@ use App\Observers\LoanObserver;
 use App\Observers\TerminalGroupObserver;
 use App\Observers\TerminalObserver;
 use App\Observers\UserObserver;
+use App\Repository\Spout;
 use Cjmellor\Approval\Models\Approval;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 
@@ -42,8 +46,8 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->bootObservers();
         $this->bootBladeDirectives();
-
         $this->bootCacheableModels();
+        $this->bootExternalApiMacros();
 
         Mail::extend('teqmail', function (array $config = []) {
             return new TeqMailTransport();
@@ -85,5 +89,25 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('terminal_groups',
             fn() => Cache::rememberForever('terminal_groups', fn() => TerminalGroup::all())
         );
+    }
+
+    private function bootExternalApiMacros(): void
+    {
+        $this->spoutMacros();
+    }
+
+    private function spoutMacros():void
+    {
+        Http::macro('spout', fn() => Http::withHeaders(Spout::headers())->baseUrl(Spout::url()));
+
+        Response::macro('isSpoutSuccess', fn() => $this['responseCode'] === '00');
+
+        Response::macro('error', function($msg) {
+            Log::error("SPOUT {$this['responseCode']}: {$this['message']} \n", $this->json());
+
+            $errorMsg = $this['responseCode'] === '05' ? $this['message'] : $msg;
+
+            return "$errorMsg... Contact support.";
+        });
     }
 }
