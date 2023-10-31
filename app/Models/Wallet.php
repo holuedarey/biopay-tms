@@ -28,7 +28,7 @@ class Wallet extends Model
         parent::boot();
 
         static::creating(function ($wallet) {
-            $wallet->uwid = Uuid::uuid2(Uuid::DCE_DOMAIN_PERSON);
+            $wallet->uwid = Uuid::uuid4();
 
             $wallet->account_number = self::generateAccountNumber($wallet->owner->phone);
         });
