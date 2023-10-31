@@ -15,7 +15,7 @@ class General
      */
     public static function generateReference( string $type = 'transaction', int $length = 16 ): string
     {
-        start: $reference = strtoupper(Str::random($length));
+        start: $reference = str(Str::random($length))->prepend('le')->upper();
 
         switch ($type) {
             case 'wallet':
