@@ -7,6 +7,8 @@ use App\Models\Terminal;
 use App\Models\Wallet;
 use App\Rules\CurrentPin;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 
 class TerminalTransactionRequest extends FormRequest
 {
@@ -45,13 +47,30 @@ class TerminalTransactionRequest extends FormRequest
 
     protected function passedValidation(): void
     {
-        $this->user()->ensureKycChecks($this->amount);
+        $this->ensureIsNotRateLimited();
+
+        $this->user()->ensureKycChecks($this->float('amount'));
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'amount.min' => 'Invalid amount entered! Minimum ' . static::NAME . ' amount is NGN:min.'
         ];
+    }
+
+    /**
+     * Ensure that only one request can be made for the given service per minute.
+     *
+     * @return void
+     * @throws FailedApiResponse
+     */
+    public function ensureIsNotRateLimited(): void
+    {
+        $throttle_key = Str::transliterate(Str::lower($this->terminal->serial).'|'.$this->ip() . '|' . static::NAME);
+
+        if (! RateLimiter::attempt($throttle_key, 1, fn() => null)) {
+            throw new FailedApiResponse('Too many ' . static::NAME . ' requests. Wait a minute.');
+        }
     }
 }
