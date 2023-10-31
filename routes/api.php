@@ -24,7 +24,7 @@ use App\Http\Controllers\Api\WalletTransactions;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DisputeController;
 
-Route::prefix('v1')->group(function () {
+Route::prefix('v1')->middleware('decode')->group(function () {
 
     Route::post('register',             Register::class);
     Route::post('auth',                 Authenticate::class);

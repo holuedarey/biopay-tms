@@ -2,18 +2,17 @@
 
 namespace App\Helpers;
 
-
-//use App\Repository\Teqrypt;
+use App\Repository\Teqrypt;
+use Illuminate\Http\JsonResponse;
 
 class MyResponse
 {
-    public static function success($message = '', $data = null): \Illuminate\Http\JsonResponse
+    public static function success($message = '', $data = null): JsonResponse
     {
-        /*if ( !is_null($data) ) {
-            $teqrypt = new Teqrypt();
-            $data = $teqrypt->encrypt(json_encode($data));
+        if ( !is_null($data) ) {
+            $data = (new Teqrypt)->encrypt(json_encode($data));
             $data = $data['success'] === true ? $data['data'] : null;
-        }*/
+        }
 
         return response()->json([
             'success'   => true,
@@ -22,13 +21,13 @@ class MyResponse
         ]);
     }
 
-    public static function failed($message = '', $data = null, $code = 200): \Illuminate\Http\JsonResponse
+    public static function failed($message = '', $data = null, $code = 200): JsonResponse
     {
-        /*if ( !is_null($data) ) {
-            $teqrypt = new Teqrypt();
-            $data = $teqrypt->encrypt(json_encode($data));
+        if ( !is_null($data) ) {
+            $data = (new Teqrypt)->encrypt(json_encode($data));
+
             $data = $data['success'] === true ? $data['data'] : null;
-        }*/
+        }
 
         return response()->json([
             'success'   => false,
