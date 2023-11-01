@@ -3,11 +3,7 @@
 namespace App\Observers;
 
 use App\Enums\Status;
-use App\Jobs\ImpactGeneralLedger;
 use App\Models\Loan;
-use App\Models\Service;
-use App\Models\Terminal;
-use App\Models\Transaction;
 
 class LoanObserver
 {

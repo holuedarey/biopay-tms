@@ -13,7 +13,7 @@ class General
      * @param int $length
      * @return string
      */
-    public static function generateReference( string $type = 'transaction', int $length = 16 ): string
+    public static function generateReference( string $type = 'transaction', int $length = 14 ): string
     {
         start: $reference = str(Str::random($length))->prepend('le')->upper();
 
