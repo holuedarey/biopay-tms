@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MyResponse;
 use App\Models\GeneralLedger;
 use App\Models\Terminal;
 use App\Models\Transaction;
@@ -20,5 +21,17 @@ class Dashboard extends Controller
         $gl_balance = GeneralLedger::getBalances();
 
         return view('pages.dashboard', compact('agents', 'latest_transactions', 'terminals', 'gl_balance'));
+    }
+
+    public function dashboardApi()
+    {
+        $agents = User::viewable()->agent()->with('kycLevel')->limit(5)->get();
+
+        $latest_transactions = Transaction::with(['agent'])->latest()->limit(5)->get();
+
+        $terminals = Terminal::countByStatus();
+
+        $gl_balance = GeneralLedger::getBalances();
+        return  MyResponse::staticSuccess('Data Retrieved Successfully', compact('agents', 'latest_transactions', 'terminals', 'gl_balance'));
     }
 }

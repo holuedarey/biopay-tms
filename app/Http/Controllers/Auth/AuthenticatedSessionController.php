@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\MyResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
@@ -58,6 +59,33 @@ class AuthenticatedSessionController extends Controller
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
+
+
+    /**
+     * Handle an incoming authentication request.
+     *
+     * @param  \App\Http\Requests\Auth\LoginRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function apiLogin(LoginRequest $request)
+    {
+        $request->authenticateApi();
+
+        $user = auth()->user();
+        activity()->enableLogging();
+
+        activity()->performedOn($user)
+            ->causedBy($user)
+            ->withProperties([
+                'attributes' => $user->only(['name', 'email'])])
+            ->inLog('User')
+            ->createdAt(now())
+            ->log('login');
+
+        $data = array_merge(collect($user)->toArray(),  auth()->user()->token());
+        return MyResponse::staticSuccess('Success', $data);
+    }
+
 
     /**
      * Destroy an authenticated session.

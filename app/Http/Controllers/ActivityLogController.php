@@ -16,6 +16,15 @@ class ActivityLogController extends Controller
         return view('pages.activity.index', compact('activities') );
     }
 
+    public function indexApi( Request $request )
+    {
+        $request->user()->can( 'read admin' );
+
+        $activities = Activity::latest()->paginate(20);
+
+        return view('pages.activity.index', compact('activities') );
+    }
+
     public function show( Activity $activity )
     {
         $current = $activity->properties['attributes'];

@@ -7,6 +7,15 @@ use Illuminate\Http\JsonResponse;
 
 class MyResponse
 {
+    public static function staticSuccess($message = '', $data = null): JsonResponse
+    {
+        return response()->json([
+            'success'   => true,
+            'message'   => $message,
+            'data'      => $data
+        ]);
+    }
+
     public static function success($message = '', $data = null): JsonResponse
     {
         if ( !is_null($data) ) {

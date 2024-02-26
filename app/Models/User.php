@@ -226,6 +226,17 @@ class User extends Authenticatable
     }
 
     /**
+     * @return array
+     */
+    public function scopeToken(): array
+    {
+        return [
+            'access_type' => 'Bearer',
+            'access_token' => $this->createToken($this->id)->plainTextToken
+        ];
+    }
+
+    /**
      * Set the initial user password to the specified user's <b>first_name</b>
      * combined with the last 5 digits of their <b>phone_number</b>.
      *

@@ -32,6 +32,7 @@ class   Register extends Controller
             'role' => ['nullable', Rule::in([Role::AGENT, Role::SUPERAGENT])]
         ]);
 
+
         $user = User::create(collect($data)->except(['serial', 'device'])->toArray());
 
         $user->assignRole($data['role'] ?? Role::AGENT);

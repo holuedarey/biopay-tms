@@ -27,7 +27,6 @@ use App\Http\Controllers\Api\DisputeController;
 Route::prefix('v1')->middleware('decode')->group(function () {
 
     Route::post('register',             Register::class);
-    Route::post('auth',                 Authenticate::class);
     Route::post('forgot-password',      PasswordResetLink::class);
 
     Route::middleware('auth:sanctum')->group(function () {
@@ -68,3 +67,6 @@ Route::prefix('v1')->middleware('decode')->group(function () {
         Route::get('logout',    Logout::class);
     });
 });
+
+require __DIR__.'/general.php';
+

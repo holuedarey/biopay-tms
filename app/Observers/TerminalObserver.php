@@ -15,9 +15,9 @@ class TerminalObserver
     public function creating(Terminal $terminal): void
     {
         $terminal->status = 'ACTIVE';
-        $terminal->tmk = strtoupper(General::generateReference(length: 38));
-        $terminal->tpk = strtoupper(General::generateReference(length: 38));
-        $terminal->tsk = strtoupper(General::generateReference(length: 38));
+        $terminal->tmk = strtoupper(General::generateReference(length: 36));
+        $terminal->tpk = strtoupper(General::generateReference(length: 36));
+        $terminal->tsk = strtoupper(General::generateReference(length: 36));
         $terminal->date_time = now()->format('d/m/y H:i');
         $terminal->category_code = '1234';
         $terminal->name_location = General::generateNameLocation($terminal->owner->name);

@@ -63,6 +63,26 @@ class LoginRequest extends FormRequest
         RateLimiter::clear($this->throttleKey());
     }
 
+    public function authenticateApi()
+    {
+        $this->ensureIsNotRateLimited();
+
+        if (! Auth::attemptWhen($this->only('email', 'password'),
+            fn(User $user) => (! $user->isAgent()),
+            $this->boolean('remember'))
+        ) {
+            RateLimiter::hit($this->throttleKey());
+
+            throw ValidationException::withMessages([
+                'email' => trans('auth.failed'),
+            ]);
+        }
+
+        RateLimiter::clear($this->throttleKey());
+        return true;
+    }
+
+
     /**
      * Ensure the login request is not rate limited.
      *

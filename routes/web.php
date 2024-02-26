@@ -35,8 +35,9 @@ use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\DisputeController;
 
-/*Route::get('dark-mode-switcher', [DarkModeController::class, 'switch'])->name('dark-mode-switcher');
-Route::get('color-scheme-switcher/{color_scheme}', [ColorSchemeController::class, 'switch'])->name('color-scheme-switcher');*/
+Route::get('testencrypt', [\App\Http\Controllers\DarkModeController::class, 'testEncrypt'])->name('dark-mode-switcher');
+Route::get('dark-mode-switcher', [\App\Http\Controllers\DarkModeController::class, 'switch'])->name('dark-mode-switcher');
+Route::get('color-scheme-switcher/{color_scheme}', [\App\Http\Controllers\ColorSchemeController::class, 'switch'])->name('color-scheme-switcher');
 
 
 Route::middleware(['auth', 'verified'])->group(function () {

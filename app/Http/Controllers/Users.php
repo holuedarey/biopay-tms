@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MyResponse;
 use App\Helpers\RoleHelper;
 use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -36,6 +37,25 @@ class Users extends Controller
         return view('pages.manage-users.register', compact('roles', 'title', 'super_agents'));
     }
 
+    public function createAdmin()
+    {
+
+        if (request()->is( 'api/v1/manage-users/onboard')) {
+            $roles = RoleHelper::getAgentRoles();
+            $title = Role::AGENT . '/' . Role::SUPERAGENT . ' Onboarding';
+            $super_agents = collect();
+        }
+        elseif(request()->is('api/v1/manage-users/admins/register')) {
+            $roles = RoleHelper::getAdminRoles();
+            $title = 'Admin Registration';
+            $super_agents = collect();
+        }
+        else {
+            return  MyResponse::staticSuccess('Invalid Request');
+        }
+
+        return  MyResponse::staticSuccess('Data Retrieved Successfully', compact('roles', 'title', 'super_agents'));
+    }
     public function show(User $user)
     {
         $user->load('kycDocs', 'terminals');

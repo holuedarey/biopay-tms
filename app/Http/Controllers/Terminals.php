@@ -20,6 +20,7 @@ class Terminals extends Controller
         return view('pages.terminals.index');
     }
 
+
     public function store(TerminalRequest $request)
     {
         $user = User::whereEmail($request->email)->first();
