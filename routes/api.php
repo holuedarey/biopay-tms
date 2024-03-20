@@ -28,6 +28,7 @@ Route::prefix('v1')->middleware('decode')->group(function () {
 
     Route::post('register',             Register::class);
     Route::post('forgot-password',      PasswordResetLink::class);
+    Route::post('auth',                 Authenticate::class);
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('dashboard', Dashboard::class);
