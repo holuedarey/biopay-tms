@@ -23,7 +23,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
                 ? ['status:'.$entry->content['response_status'], 'path:'.$entry->content['uri']]
                 : [];
         });
-        $isLocal = $this->app->environment('local');
+        $isLocal = $this->app->environment('production');
 
         Telescope::filter(function (IncomingEntry $entry) use ($isLocal) {
             return $isLocal ||
@@ -62,7 +62,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     {
         Gate::define('viewTelescope', function ($user) {
             return in_array($user->email, [
-                ' info@getstack.africa',
+                'info@getstack.africa',
                 'holudare2076@gmail.com'
             ]);
         });
