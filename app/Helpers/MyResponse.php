@@ -18,10 +18,10 @@ class MyResponse
 
     public static function success($message = '', $data = null): JsonResponse
     {
-        if ( !is_null($data) ) {
-            $data = (new Teqrypt)->encrypt(json_encode($data));
-            $data = $data['success'] === true ? $data['data'] : null;
-        }
+//        if ( !is_null($data) ) {
+//            $data = (new Teqrypt)->encrypt(json_encode($data));
+//            $data = $data['success'] === true ? $data['data'] : null;
+//        }
 
         return response()->json([
             'success'   => true,
@@ -32,11 +32,11 @@ class MyResponse
 
     public static function failed($message = '', $data = null, $code = 200): JsonResponse
     {
-        if ( !is_null($data) ) {
-            $data = (new Teqrypt)->encrypt(json_encode($data));
-
-            $data = $data['success'] === true ? $data['data'] : null;
-        }
+//        if ( !is_null($data) ) {
+//            $data = (new Teqrypt)->encrypt(json_encode($data));
+//
+//            $data = $data['success'] === true ? $data['data'] : null;
+//        }
 
         return response()->json([
             'success'   => false,
