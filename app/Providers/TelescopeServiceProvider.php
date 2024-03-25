@@ -19,9 +19,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
         $this->hideSensitiveRequestDetails();
 
         Telescope::tag(function (IncomingEntry $entry) {
-            return $entry->type === 'request'
-                ? ['status:'.$entry->content['response_status'], 'path:'.$entry->content['uri']]
-                : [];
+            return $entry->type === 'request' ? ['status:'.$entry->content['response_status'], 'path:'.$entry->content['uri']] : [];
         });
 
         Telescope::filter(function (IncomingEntry $entry) {
@@ -37,10 +35,10 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     /**
      * Prevent sensitive request details from being logged by Telescope.
      */
-    protected function hideSensitiveRequestDetails(): void
+    protected function hideSensitiveRequestDetails()
     {
-        if ($this->app->environment('production')) {
-            return;
+        if (! $this->app->environment('infinitypaul')) {
+            return true;
         }
 
         Telescope::hideRequestParameters(['_token']);
