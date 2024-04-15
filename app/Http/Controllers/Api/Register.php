@@ -37,7 +37,7 @@ class   Register extends Controller
 
         $user->assignRole($data['role'] ?? Role::AGENT);
 
-        $user->createDummyTerminal(...$request->only('serial', 'device', 'phone'));
+            $user->createDummyTerminal(...$request->only('serial', 'device', 'phone'));
 
         return MyResponse::success('Registration successful! Proceed to login to your device.');
     }

@@ -102,7 +102,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
             Route::get('/{activity}', 'show')->name('show');
         });
 
-        Route::resource('users',                        Users::class)->only(['show', 'update', 'store']);
+        Route::resource('users',                        Users::class)->only(['showApi', 'updateApi', 'storeApi']);
         Route::resource('terminals',                    TerminalsApi::class)->except(['destroy', 'edit', 'create']);
         Route::resource('users.kyc-docs',               UserKycDocs::class)->shallow()->only(['indexApi', 'storeApi']);
         Route::resource('users.manage-level',           ManageUserLevel::class)->only(['indexApi', 'storeApi']);

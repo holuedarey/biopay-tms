@@ -89,4 +89,37 @@ class Users extends Controller
 
         return back()->with('success', 'Update successful!');
     }
+
+    public function showApi(User $user)
+    {
+        $user->load('kycDocs', 'terminals');
+
+        $transactions = (object) [
+            'today' => $user->transactions()->filterByDateDesc('today')->sumAndCount(),
+            'week' => $user->transactions()->filterByDateDesc('week')->sumAndCount(),
+            'month' => $user->transactions()->filterByDateDesc('month')->sumAndCount(),
+            'year' => $user->transactions()->filterByDateDesc('year')->sumAndCount(),
+        ];
+        return  MyResponse::staticSuccess('Data Retrieved Successfully', compact('transactions'));
+    }
+
+    public function storeApi(RegisterUserRequest $request)
+    {
+        $data = $request->role == Role::AGENT ? $request->validated() : $request->except('super_agent_id');
+
+        $user = User::create($data); // Observer creates password, level and wallet;
+
+        $user->assignRole($request->role);
+
+        $user->notify(new AccountRegistration);
+
+        return  MyResponse::staticSuccess("$request->role onboarding successful!");
+
+    }
+
+    public function updateApi(UpdateUserRequest $request, User $user)
+    {
+        $user->update($request->validated());
+        return  MyResponse::staticSuccess('Update successful!');
+    }
 }
