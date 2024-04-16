@@ -28,6 +28,7 @@ use App\Http\Controllers\TerminalGroupTerminals;
 use App\Http\Controllers\TerminalMenus;
 use App\Http\Controllers\TerminalProcessors;
 use App\Http\Controllers\TerminalsApi;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Agent;
@@ -56,8 +57,8 @@ Route::prefix('v1/auth')->middleware('guest')->group(function () {
 
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
 
-    Route::get('authtest', function (){
-        return "Authenticated";
+    Route::get('authtest/{user}', function (Request $request, $user){
+        return $user;
     });
 
     Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
@@ -102,7 +103,10 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
             Route::get('/{activity}', 'show')->name('show');
         });
 
-        Route::resource('users',                        Users::class)->only(['showApi', 'updateApi', 'storeApi']);
+        Route::get('users/{user}',                        [Users::class, 'showApi']);
+        Route::patch('users',                        [Users::class, 'updateApi']);
+        Route::post('users',                        [Users::class, 'storeApi']);
+
         Route::resource('terminals',                    TerminalsApi::class)->except(['destroy', 'edit', 'create']);
         Route::resource('users.kyc-docs',               UserKycDocs::class)->shallow()->only(['indexApi', 'storeApi']);
         Route::resource('users.manage-level',           ManageUserLevel::class)->only(['indexApi', 'storeApi']);

@@ -10,6 +10,8 @@ use App\Models\Role;
 use App\Models\TerminalGroup;
 use App\Models\User;
 use App\Notifications\AccountRegistration;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 
 class Users extends Controller
 {
@@ -90,8 +92,9 @@ class Users extends Controller
         return back()->with('success', 'Update successful!');
     }
 
-    public function showApi(User $user)
+    public function showApi(Request $request, User $user)
     {
+        Log::notice(json_encode($request));
         $user->load('kycDocs', 'terminals');
 
         $transactions = (object) [
