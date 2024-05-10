@@ -72,7 +72,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
-    Route::middleware(['auth', 'verified'])->group(function () {
+    Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard',                 [Dashboard::class, 'dashboardApi'])->name('dashboard');
         Route::get('statistics/{user?}',       [Statistics::class, 'statisticsApi'])->name('statistics');
 
