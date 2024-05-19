@@ -10,12 +10,10 @@ use App\Http\Controllers\AssignUserRole;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Fees;
-use App\Http\Controllers\KycLevels;
+use App\Http\Controllers\KycLevelsApi;
 use App\Http\Controllers\Ledger;
 use App\Http\Controllers\Menus;
 use App\Http\Controllers\Permissions;
@@ -37,11 +35,10 @@ use App\Http\Controllers\Statistics;
 use App\Http\Controllers\GeneralLedgers;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\Users;
-use App\Http\Controllers\Terminals;
-use App\Http\Controllers\UserKycDocs;
-use App\Http\Controllers\ManageUserLevel;
-use App\Http\Controllers\KycDocs;
-use App\Http\Controllers\Transactions;
+use App\Http\Controllers\UserKycDocsApi;
+use App\Http\Controllers\ManageUserLevelApi;
+use App\Http\Controllers\KycDocsApi;
+use App\Http\Controllers\TransactionsApi;
 use App\Models\Role;
 
 Route::prefix('v1/auth')->middleware('guest')->group(function () {
@@ -72,7 +69,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
-    Route::middleware(['auth'])->group(function () {
+    Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard',                 [Dashboard::class, 'dashboardApi'])->name('dashboard');
         Route::get('statistics/{user?}',       [Statistics::class, 'statisticsApi'])->name('statistics');
 
@@ -99,20 +96,22 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         });
 
         Route::controller(ActivityLogController::class)->prefix('activities')->name('activities.')->group(function () {
-            Route::get('/', 'index')->name('index');
-            Route::get('/{activity}', 'show')->name('show');
+            Route::get('/', 'indexApi')->name('indexApi');
+            Route::get('/{activity}', 'showApi')->name('showApi');
         });
 
-        Route::get('users/{user}',                        [Users::class, 'showApi']);
-        Route::patch('users',                        [Users::class, 'updateApi']);
+        Route::get('users/{user}',                  [Users::class, 'showApi']);
+        Route::patch('users',                       [Users::class, 'updateApi']);
         Route::post('users',                        [Users::class, 'storeApi']);
 
         Route::resource('terminals',                    TerminalsApi::class)->except(['destroy', 'edit', 'create']);
-        Route::resource('users.kyc-docs',               UserKycDocs::class)->shallow()->only(['indexApi', 'storeApi']);
-        Route::resource('users.manage-level',           ManageUserLevel::class)->only(['indexApi', 'storeApi']);
-        Route::resource('kyc-docs',                     KycDocs::class)->shallow()->except(['edit', 'show']);
-        Route::resource('transactions',                 Transactions::class)->only(['index', 'update']);
-        Route::resource('kyc-levels',                   KycLevels::class)->only(['index', 'store', 'update']);
+        Route::resource('users-kyc-docs',               UserKycDocsApi::class)->shallow()->only(['index', 'store']);
+        Route::resource('users-manage-level',           ManageUserLevelApi::class)->only(['index', 'store']);
+        Route::resource('kyc-docs',                     KycDocsApi::class)->shallow()->except(['edit', 'show']);
+        Route::resource('transactions',                 TransactionsApi::class)->only(['index', 'update']);
+        Route::resource('kyc-levels',                   KycLevelsApi::class)->only(['index', 'store', 'update']);
+
+        //todo:
         Route::resource('ledger',                       Ledger::class)->only('index');
         Route::resource('approvals',                    Approvals::class)->only(['index', 'update', 'destroy']);
         Route::resource('roles',                        Roles::class)->except(['edit', 'destroy']);
@@ -131,7 +130,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         Route::resource('routing',                      Routing::class)->only('index');
         Route::resource('loans',                        Loans::class)->only(['index', 'update']);
 
-        Route::get('kyc-documents', [KycDocs::class, 'display'])->name('display');
+        Route::get('kyc-documents', [KycDocsApi::class, 'display'])->name('display');
         Route::get('/services/json', [Services::class, 'jsonData'])->name('services.json');
         Route::get('/dispute', [DisputeController::class, 'index'])->name('dispute');
 

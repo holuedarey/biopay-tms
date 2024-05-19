@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MyResponse;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 
@@ -21,8 +22,7 @@ class ActivityLogController extends Controller
         $request->user()->can( 'read admin' );
 
         $activities = Activity::latest()->paginate(20);
-
-        return view('pages.activity.index', compact('activities') );
+        return  MyResponse::staticSuccess('Data Retrieved Successfully', compact('activities'));
     }
 
     public function show( Activity $activity )
@@ -36,5 +36,14 @@ class ActivityLogController extends Controller
         }
 
         return view('pages.activity.show', compact('activity' , 'current'));
+    }
+    public function showApi( Activity $activity )
+    {
+        $current = $activity->properties['attributes'];
+        if ( isset( $activity->properties['old'] )) {
+            $old = $activity->properties['old'];
+            return  MyResponse::staticSuccess('Data Retrieved Successfully', compact('activity', 'old' , 'current'));
+        }
+        return  MyResponse::staticSuccess('Data Retrieved Successfully', compact('activity' , 'current'));
     }
 }
