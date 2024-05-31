@@ -63,10 +63,10 @@ class Spout implements
             return collect([
                 'paymentData' => $res->collect()->only('transactionId'),
                 'plans' => $res->collect('response.data')->map(fn($item) => [
-                    'name' => $item['name'],
+                    'name' => $item['description'],
                     'code' => $item['code'],
                     'amount' => $item['amount'],
-                    'validity' => $item['validity'],
+                    'validity' => $item['validity'] ?? "",
                 ])
             ]);
         }
