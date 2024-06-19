@@ -24,6 +24,7 @@
                     @endif
 
                     <th >Amount</th>
+                    <th >Revenue</th>
 
                     @if($type == 'wallet')
                         <th >Prev Balance</th>
@@ -87,6 +88,7 @@
 
                         @if(in_array($type, ['all', 'single-user']))
                             <td class="text-slate-500">@money($transaction->charge)</td>
+                            <td class="ext-slate-500">@money((providerCharges($transaction->charge, $transaction->amount, $transaction->service->name)  ?? 0))</td>
 
                             <td class="text-blue-600">@money($transaction->total_amount)</td>
 

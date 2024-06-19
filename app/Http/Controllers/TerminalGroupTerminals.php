@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MyResponse;
 use App\Http\Requests\TerminalRequest;
 use App\Models\TerminalGroup;
 use App\Models\User;
@@ -10,7 +11,7 @@ class TerminalGroupTerminals extends Controller
 {
     public function index(TerminalGroup $terminalGroup)
     {
-        return view('pages.terminal-groups.terminals', compact('terminalGroup'));
+        return  MyResponse::staticSuccess('Data Retrieved Successfully',compact('terminalGroup'));
     }
 
     public function store(TerminalRequest $request, TerminalGroup $terminalGroup)

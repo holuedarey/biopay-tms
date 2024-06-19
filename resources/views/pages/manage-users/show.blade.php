@@ -327,6 +327,38 @@
                         <!-- END: KYC Details -->
                     </div>
 
+                    <div class="row">
+                        @if($agents && $user->isSuperAgent())
+                            <p class="mb-0 me-auto">Agent List</p>
+                            <table class="table tab-content">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email Address</th>
+                                    <th>Phone</th>
+                                    <th>Kyc Level</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                @foreach($agents as $user)
+
+                                    <tbody>
+                                        <tr>
+                                            <td><a href="{{ route('users.show', $user) }}">{{ $user->name }}</a></td>
+                                            <td><a href="mailto:{{ $user->email }}" class="f-light">{{ $user->email }}</a></td>
+                                            <td><a href="tel:{{ $user->phone }}" target="_blank"><i class="fa fa-phone"></i> {{ $user->phone }}</a></td>
+                                            <td>{{ $user->kycLevel->name }}</td>
+                                            <td><a href="{{ route('users.show', $user) }}" class="d-block"> View</a></td>
+                                        </tr>
+                                    </tbody>
+                            @endforeach
+
+                            </table>
+                        @else
+                            <p>No Associated Agent for this Terminal</p>
+                        @endif
+
+                    </div>
                     <!-- BEGIN: General Statistic -->
                     <section class="mt-12">
                         <livewire:transactions-table type="single-user" :user="$user" />
@@ -341,3 +373,4 @@
         </div>
     </div>
 @endsection
+

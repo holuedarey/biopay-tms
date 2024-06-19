@@ -21,7 +21,7 @@ use App\Http\Controllers\Processors;
 use App\Http\Controllers\Providers;
 use App\Http\Controllers\Roles;
 use App\Http\Controllers\Routing;
-use App\Http\Controllers\TerminalGroups;
+use App\Http\Controllers\TerminalGroupsApi;
 use App\Http\Controllers\TerminalGroupTerminals;
 use App\Http\Controllers\TerminalMenus;
 use App\Http\Controllers\TerminalProcessors;
@@ -118,7 +118,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         Route::resource('permissions',                  Permissions::class)->only(['index', 'store', 'update']);
         Route::resource('roles.users',                  AssignUserRole::class)->only(['store', 'destroy']);
         Route::resource('services',                     Services::class)->only(['index', 'update']);
-        Route::resource('terminal-groups',              TerminalGroups::class)->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+        Route::resource('terminal-groups',              TerminalGroupsApi::class)->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
         Route::resource('terminal-groups.terminals',    TerminalGroupTerminals::class)->only('index');
         Route::resource('providers',                    Providers::class)->only(['index', 'store', 'destroy']);
         Route::resource('menus',                        Menus::class)->only('index');

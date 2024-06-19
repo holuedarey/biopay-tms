@@ -61,7 +61,10 @@ class Users extends Controller
     public function show(User $user)
     {
         $user->load('kycDocs', 'terminals');
-
+        $agents = [];
+        if($user->isSuperAgent()){
+            $agents = User::where('super_agent_id', $user->getAuthIdentifier())->get();
+        }
         $transactions = (object) [
             'today' => $user->transactions()->filterByDateDesc('today')->sumAndCount(),
             'week' => $user->transactions()->filterByDateDesc('week')->sumAndCount(),
@@ -69,7 +72,7 @@ class Users extends Controller
             'year' => $user->transactions()->filterByDateDesc('year')->sumAndCount(),
         ];
 
-        return view('pages.manage-users.show', compact('user', 'transactions'));
+        return view('pages.manage-users.show', compact('user', 'transactions', 'agents'));
     }
 
     public function store(RegisterUserRequest $request)
