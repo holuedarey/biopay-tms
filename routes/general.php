@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\Admin;
+use App\Http\Controllers\Agent;
 use App\Http\Controllers\Api\DisputeController;
 use App\Http\Controllers\Api\Loans;
 use App\Http\Controllers\Api\Services;
@@ -12,43 +15,39 @@ use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Fees;
+use App\Http\Controllers\GeneralLedgers;
+use App\Http\Controllers\KycDocsApi;
 use App\Http\Controllers\KycLevelsApi;
 use App\Http\Controllers\Ledger;
+use App\Http\Controllers\ManageUserLevelApi;
 use App\Http\Controllers\Menus;
 use App\Http\Controllers\Permissions;
 use App\Http\Controllers\Processors;
 use App\Http\Controllers\Providers;
 use App\Http\Controllers\Roles;
 use App\Http\Controllers\Routing;
+use App\Http\Controllers\Statistics;
 use App\Http\Controllers\TerminalGroupsApi;
 use App\Http\Controllers\TerminalGroupTerminals;
 use App\Http\Controllers\TerminalMenus;
 use App\Http\Controllers\TerminalProcessors;
 use App\Http\Controllers\TerminalsApi;
+use App\Http\Controllers\TransactionsApi;
+use App\Http\Controllers\UserKycDocsApi;
+use App\Http\Controllers\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin;
-use App\Http\Controllers\Agent;
-use App\Http\Controllers\Dashboard;
-use App\Http\Controllers\Statistics;
-use App\Http\Controllers\GeneralLedgers;
-use App\Http\Controllers\ActivityLogController;
-use App\Http\Controllers\Users;
-use App\Http\Controllers\UserKycDocsApi;
-use App\Http\Controllers\ManageUserLevelApi;
-use App\Http\Controllers\KycDocsApi;
-use App\Http\Controllers\TransactionsApi;
-use App\Models\Role;
 
 Route::prefix('v1/auth')->middleware('guest')->group(function () {
 
 
-    Route::post('login', [AuthenticatedSessionController::class, 'apiLogin']);
+    Route::post('login', [\App\Http\Controllers\WebApi\Auth\AuthenticatedSessionController::class, 'apiLogin']);
 
-    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
+    Route::post('forgot-password', [\App\Http\Controllers\WebApi\Auth\PasswordResetLinkController::class, 'store'])->name('password.email');
 
-    Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.update');
+    Route::post('reset-password', [\App\Http\Controllers\WebApi\Auth\NewPasswordController::class, 'store'])->name('password.update');
 
 });
 
@@ -58,7 +57,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         return $user;
     });
 
-    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+    Route::post('email/verification-notification', [\App\Http\Controllers\WebApi\Auth\EmailVerificationNotificationController::class, 'store'])
                 ->middleware('throttle:6,1')
                 ->name('verification.send');
 
