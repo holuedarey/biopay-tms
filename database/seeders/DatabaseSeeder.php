@@ -17,18 +17,19 @@ class DatabaseSeeder extends Seeder
         // create default configs
 
         $this->call([
-            ConfigSeeder::class,
-            RoleSeeder::class,
-            RoutingSeeder::class,
-            KycLevelSeeder::class,
-            UserSeeder::class,
-            ServiceSeeder::class,
-            TerminalGroupSeeder::class,
-            FeeSeeder::class,
-            GeneralLedgerSeeder::class,
-            /*GLTSeeder::class,
-            TerminalSeeder::class,
-            TransactionSeeder::class,*/
+//            ConfigSeeder::class,
+//            RoleSeeder::class,
+//            RoutingSeeder::class,
+//            KycLevelSeeder::class,
+//            UserSeeder::class,
+//            ServiceSeeder::class,
+//            TerminalGroupSeeder::class,
+                        TerminalSeeder::class,
+//            FeeSeeder::class,
+//            GeneralLedgerSeeder::class,
+//            GLTSeeder::class,
+//            TerminalSeeder::class,
+//            TransactionSeeder::class,
         ]);
     }
 }

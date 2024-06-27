@@ -82,7 +82,28 @@ class LoginRequest extends FormRequest
         return true;
     }
 
-
+//    public function authenticateApi()
+//    {
+//        $this->ensureIsNotRateLimited();
+//
+//        $credentials = $this->only('email', 'password');
+//        $remember = $this->boolean('remember');
+//
+//        // Attempt authentication
+//        $authenticated = Auth::attempt($credentials);
+//
+//        if (! $authenticated) {
+//            RateLimiter::hit($this->throttleKey());
+//
+//            throw ValidationException::withMessages([
+//                'email' => trans('auth.failed'),
+//            ]);
+//        }
+//
+//        RateLimiter::clear($this->throttleKey());
+//
+//        return true;
+//    }
     /**
      * Ensure the login request is not rate limited.
      *

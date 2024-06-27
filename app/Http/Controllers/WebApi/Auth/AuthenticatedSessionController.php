@@ -91,7 +91,7 @@ class AuthenticatedSessionController extends Controller
      * Destroy an authenticated session.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Request $request)
     {
@@ -102,17 +102,15 @@ class AuthenticatedSessionController extends Controller
         activity()->performedOn($user)
             ->causedBy($user)
             ->withProperties([
-                'attributes' => $user->only(['name', 'email'])])
+                'attributes' => $user->only(['name', 'email'])
+            ])
             ->inLog('User')
             ->createdAt(now())
             ->log('Logged Out');
 
-        Auth::guard('web')->logout();
+        $user->tokens()->delete();
 
-        $request->session()->invalidate();
 
-        $request->session()->regenerateToken();
-
-        return redirect('/');
+        return MyResponse::success('Successfully logged out');
     }
 }

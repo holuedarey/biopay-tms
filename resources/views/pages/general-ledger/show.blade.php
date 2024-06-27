@@ -1,6 +1,6 @@
 @extends('../layout/'.  config('view.menu-style'))
 
-@section('title', 'General Ledger')
+@section('title', 'GeneralLedger')
 
 @php($name = $gl->service->name)
 

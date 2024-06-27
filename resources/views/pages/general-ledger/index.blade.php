@@ -1,6 +1,6 @@
 @extends('../layout/'.  config('view.menu-style'))
 
-@section('title', 'General Ledger')
+@section('title', 'GeneralLedger')
 
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
