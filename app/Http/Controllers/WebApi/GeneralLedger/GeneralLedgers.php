@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\WebApi\GeneralLedger;
 
 use App\Enums\Action;
 use App\Helpers\MyResponse;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\GlRequest;
 use App\Models\Approval;
 use App\Models\GeneralLedger;

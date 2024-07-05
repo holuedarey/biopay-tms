@@ -23,7 +23,8 @@ class TerminalSeeder extends Seeder
 
         $agents->each(function (User $agent) {
 
-            (new Terminal([
+            (
+                new Terminal([
                 'user_id' => $agent->id,
                 'group_id' => 1,
                 'device'        => fake()->word(),

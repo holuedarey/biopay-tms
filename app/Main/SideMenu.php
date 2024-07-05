@@ -97,7 +97,7 @@ class SideMenu
 
             'general-ledger' => [
                 'icon' => 'target',
-                'title' => 'General Ledger',
+                'title' => 'GeneralLedger',
                 'route_name' => 'general-ledger.show',
                 'permission' => 'read general ledger'
             ],

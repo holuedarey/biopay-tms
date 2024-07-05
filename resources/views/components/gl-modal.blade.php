@@ -1,6 +1,6 @@
 @props(['gl'])
 
-<x-modal :modal-id="'modal'. $gl->id" :modal-title="'Fund ' . $gl->service->name . ' General Ledger'" :is-large="false">
+<x-modal :modal-id="'modal'. $gl->id" :modal-title="'Fund ' . $gl->service->name . ' GeneralLedger'" :is-large="false">
     <form action="{{ route('general-ledger.update', $gl) }}" method="post" class="my-form col-span-12">
         @csrf
 
