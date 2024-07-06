@@ -47,6 +47,7 @@ Route::prefix('v1/auth')->middleware('guest')->group(function () {
 
 
     Route::post('login', [AuthenticatedSessionController::class, 'apiLogin']);
+    Route::post('loginwithserial', [AuthenticatedSessionController::class, 'apiLoginWithterminalSerial']);
 
     Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
 

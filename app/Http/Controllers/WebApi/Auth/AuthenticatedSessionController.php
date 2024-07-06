@@ -5,6 +5,9 @@ namespace App\Http\Controllers\WebApi\Auth;
 use App\Helpers\MyResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\LoginWithSerialRequest;
+use App\Models\Terminal;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -83,6 +86,38 @@ class AuthenticatedSessionController extends Controller
             ->log('login');
 
         $data = array_merge(collect($user)->toArray(),  auth()->user()->token());
+        return MyResponse::staticSuccess('Success', $data);
+    }
+
+    public function apiLoginWithterminalSerial(LoginWithSerialRequest $request)
+    {
+        $terminal = Terminal::where('serial', $request->serial)->first();
+
+        if (!$terminal) {
+            return response()->json(['error' => 'Terminal not found'], 404);
+        }
+
+        $userId = $terminal->user_id;
+
+        // Retrieve the user based on user_id
+        $user = User::find($userId);
+
+        if (!$user) {
+            return MyResponse::failed('User not found');
+        }
+
+        // Authenticate the user and generate token
+        $token = $user->createToken('TerminalLoginToken')->plainTextToken;
+
+        // Log the login activity
+        activity()
+            ->performedOn($user)
+            ->causedBy($user)
+            ->withProperties(['attributes' => $user->only(['name', 'email'])])
+            ->log('login');
+
+        // Return success response with user data and token
+        $data = array_merge($user->toArray(), ["access_type"=>"Bearer", 'access_token' => $token]);
         return MyResponse::staticSuccess('Success', $data);
     }
 
