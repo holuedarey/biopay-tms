@@ -30,6 +30,9 @@ use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
+/**
+ * @method static find($userId)
+ */
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasRoles, LogsActivity, CausesActivity, HasApiTokens, HasKycCheck, SoftDeletes;

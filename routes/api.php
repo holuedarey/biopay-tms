@@ -25,6 +25,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DisputeController;
 
 Route::prefix('v1')->group(function () {
+    Route::post('/hash',             function (){
+        return \Illuminate\Support\Facades\Hash::make('Okikiola1994@');
+    });
 
     Route::post('register',             Register::class);
     Route::post('forgot-password',      PasswordResetLink::class);
