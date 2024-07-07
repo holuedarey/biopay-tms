@@ -4,10 +4,12 @@ namespace App\Http\Controllers\WebApi;
 
 use App\Helpers\MyResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TransactionResource;
 use App\Models\GeneralLedger;
 use App\Models\Terminal;
 use App\Models\Transaction;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class Dashboard extends Controller
 {
@@ -35,4 +37,8 @@ class Dashboard extends Controller
         $gl_balance = GeneralLedger::getBalances();
         return  MyResponse::staticSuccess('Data Retrieved Successfully', compact('agents', 'latest_transactions', 'terminals', 'gl_balance'));
     }
+
+
+
+
 }
