@@ -35,6 +35,7 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('dashboard', Dashboard::class);
+        Route::get('dashboardwithserial', [Dashboard::class, 'dashboardWithSerial']);
 
         Route::apiResource('terminals',                 Terminals::class)->only('update');
         Route::apiResource('profile',                   Profile::class)->only(['index', 'store']);
