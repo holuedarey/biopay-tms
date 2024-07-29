@@ -16,7 +16,7 @@ class KycLevels extends Controller
     public function index(Request $request)
     {
         $user = Auth::user(); // Get the authenticated user
-        $permissions = $user->getAllPermissions();
+        $permissions = $user->getAllPermissions()->pluck("name");
         dd($permissions);
        // $request->user()->can('read kyc-level');
         // Retrieve all KycLevel records
