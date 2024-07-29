@@ -14,8 +14,13 @@ class KycLevels extends Controller
 {
     public function index(Request $request)
     {
-        $request->user()->can('read kyc-level');
-        return  MyResponse::staticSuccess('Data Retrieved Successfully');
+       // $request->user()->can('read kyc-level');
+        // Retrieve all KycLevel records
+        $kycLevels = KycLevel::all();
+
+        // Return the data, you can use a custom response format if needed
+        return MyResponse::staticSuccess('Data Retrieved Successfully', $kycLevels);
+        //return  MyResponse::staticSuccess('Data Retrieved Successfully');
     }
 
     public function store(KycLevelCreateRequest $request)
