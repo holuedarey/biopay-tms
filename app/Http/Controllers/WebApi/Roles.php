@@ -15,11 +15,17 @@ class Roles extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Role::class);
+
+       $this->authorizeResource(Role::class);
     }
 
     public function index()
     {
+
+//        if (!auth()->user()->can('viewAny')) {
+//            return MyResponse::failed('You do not have permission to view roles.', 403);
+//        }
+
         $roles = Role::orderBy('name')
             ->withCount(['users', 'permissions'])
             ->with(['users' => fn($query) => $query->inRandomOrder()->limit(6)])
@@ -41,6 +47,8 @@ class Roles extends Controller
 
     public function update(RoleUpdateRequest $request, Role $role)
     {
+       //dd($request);
+
         if (!in_array($role->type, [Role::SUPERAGENT, Role::AGENT]))
             $role->update(['name' => $request->name]);
 

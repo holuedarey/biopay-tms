@@ -13,14 +13,16 @@ class AssignUserRole extends Controller
 {
     public function store(Request $request, $role)
     {
-//        // Find the role by name
-//        $roled = Role::findById($role);
-//        dd($roled);
         $request->validate(['emails' => 'required|string']);
 
         $emails = array_map('trim', explode(',', $request->emails));
 
         $users = User::whereIn('email', $emails)->get();
+
+        // Check if any users were found
+        if ($users->isEmpty()) {
+            return MyResponse::failed("No users found with the provided email(s)");
+        }
 
         Role::findByName($role)->users()->syncWithoutDetaching($users);
         return MyResponse::staticSuccess("Successfully assigned role to user(s)");
