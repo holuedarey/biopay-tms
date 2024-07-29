@@ -73,6 +73,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
 
+   // Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::middleware(['auth:api', 'verified'])->group(function () {
         Route::get('/dashboard',                 [Dashboard::class, 'dashboardApi'])->name('dashboard');
         Route::get('statistics/{user?}',       [Statistics::class, 'statisticsApi'])->name('statistics');
@@ -120,8 +121,8 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         Route::resource('users-manage-level',           ManageUserLevelApi::class)->only(['index', 'store']);
         Route::resource('kyc-docs',                     KycDocsApi::class)->shallow()->except(['edit', 'show']);
         Route::resource('transactions',                 Transactions::class)->only(['index', 'update']);
-//        Route::resource('kyc-levels',                   KycLevels::class)->only(['index', 'store', 'update']);
-        Route::post('kyc-levels', [KycLevels::class, 'store'])->name('kyc-levels.store');
+        Route::resource('kyc-levels',                   KycLevels::class)->only(['index', 'store', 'update']);
+       // Route::post('kyc-levels', [KycLevels::class, 'store'])->name('kyc-levels.store');
         Route::put('kyc-levels/{kyc_level}', [KycLevels::class, 'update'])->name('kyc-levels.update');
 
         //this is only return a view
