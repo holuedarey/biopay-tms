@@ -9,11 +9,15 @@ use App\Http\Requests\KycLevelCreateRequest;
 use App\Http\Requests\KycLevelRequest;
 use App\Models\KycLevel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class KycLevels extends Controller
 {
     public function index(Request $request)
     {
+        $user = Auth::user(); // Get the authenticated user
+        $permissions = $user->getAllPermissions();
+        dd($permissions);
        // $request->user()->can('read kyc-level');
         // Retrieve all KycLevel records
         $kycLevels = KycLevel::all();

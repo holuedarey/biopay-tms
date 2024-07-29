@@ -46,6 +46,7 @@ class KycLevel extends Model
 
     public function requiredDoc(): Attribute
     {
+        //dd($this->id);
         return Attribute::get(fn() => match ($this->id) {
             1 => null,
             2 => 'BVN',
