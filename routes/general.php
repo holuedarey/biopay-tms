@@ -125,6 +125,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
        // Route::post('kyc-levels', [KycLevels::class, 'store'])->name('kyc-levels.store');
         Route::put('kyc-levels/{kyc_level}', [KycLevels::class, 'update'])->name('kyc-levels.update');
 
+
         //this is only return a view
         Route::resource('ledger',                       Ledger::class)->only('index');
         //having authorization issue
